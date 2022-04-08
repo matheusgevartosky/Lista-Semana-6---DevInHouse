@@ -26,13 +26,21 @@ const c = () => new Promise(resolve => {
     }, 1200)
 })
 
-const jobs = async () =>{
+const jobs = async () => {
+  try {
     const resultA = await a();
     const resultB = await b();
     const resultC = await c();
 
-    return [ resultA, resultB, resultC]
-}
+    return  new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({values: [resultA,resultB,resultC]})
+        }, 1000);
+    });
+  } catch (error) {
+      return[null,null,null]
+  }
+};
 
 jobs().then((result) =>{
     console.log('resolvida', result)
